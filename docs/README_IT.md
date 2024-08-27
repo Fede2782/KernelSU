@@ -6,7 +6,7 @@
 
 Una soluzione per il root basata sul kernel per i dispositivi Android. 
 
-[![Ultima versione](https://img.shields.io/github/v/release/tiann/KernelSU?label=Ultima versione&logo=github)](https://github.com/tiann/KernelSU/releases/latest)
+[![Latest release](https://img.shields.io/github/v/release/tiann/KernelSU?label=Release&logo=github)](https://github.com/tiann/KernelSU/releases/latest)
 [![Weblate](https://img.shields.io/badge/Localization-Weblate-teal?logo=weblate)](https://hosted.weblate.org/engage/kernelsu)
 [![Canale Telegraml](https://img.shields.io/badge/Follow-Telegram-blue.svg?logo=telegram)](https://t.me/KernelSU)
 [![Licenza componenti kernel: GPL v2](https://img.shields.io/badge/License-GPL%20v2-orange.svg?logo=gnu)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
@@ -43,7 +43,7 @@ To help translate KernelSU or improve existing translations, please use [Weblate
 
 ## Securezza
 
-Per informazioni riguardo la segnalazione di vulnerabilità di sicurezza per KernelSU, guarda [SECURITY.md](/SECURITY.md).
+Per informazioni riguardo la segnalazione di vulnerabilità di sicurezza per KernelSU, leggi [SECURITY.md](/SECURITY.md).
 
 ## Licenza
 
