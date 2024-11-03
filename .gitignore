@@ -1,2 +1,4 @@
 .idea
 .vscode
+manager/signing/*.pk8
+manager/signing/*.x509.pem

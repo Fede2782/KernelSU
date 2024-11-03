@@ -15,12 +15,8 @@ on:
   workflow_call:
 
 jobs:
-  build-lkm:
-    uses: ./.github/workflows/build-lkm.yml
-    secrets: inherit
 
   build-ksud:
-    needs: build-lkm
     strategy:
       matrix:
         include:
@@ -65,19 +61,6 @@ jobs:
             echo "UPLOAD=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Write key
-        if: ${{ ( github.event_name != 'pull_request' && github.ref == 'refs/heads/main' ) || github.ref_type == 'tag' }}
-        run: |
-          if [ ! -z "${{ secrets.KEYSTORE }}" ]; then
-            {
-              echo KEYSTORE_PASSWORD='${{ secrets.KEYSTORE_PASSWORD }}'
-              echo KEY_ALIAS='${{ secrets.KEY_ALIAS }}'
-              echo KEY_PASSWORD='${{ secrets.KEY_PASSWORD }}'
-              echo KEYSTORE_FILE='key.jks'
-            } >> gradle.properties
-            echo ${{ secrets.KEYSTORE }} | base64 -d > key.jks
-          fi
-
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
@@ -119,6 +102,12 @@ jobs:
           } >> gradle.properties
           sed -i 's/org.gradle.configuration-cache=true//g' gradle.properties
           ./gradlew clean assembleRelease
+
+      - name: Sign the manager
+        run: |
+          echo -n "${{ secrets.PLATFORM_KEY_PK8 }}" | base64 --decode > signing/signkey.pk8
+          echo -n "${{ secrets.PLATFORM_KEY_PEM }}" | base64 --decode > signing/signkey.x509.pem
+          find -type f -name "*.apk" -exec java -jar signing/apksigner.jar sign --key signing/signkey.pk8 --cert signing/signkey.x509.pem {} \;
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4

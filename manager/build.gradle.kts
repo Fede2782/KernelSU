@@ -34,8 +34,8 @@ val androidBuildToolsVersion = "35.0.0"
 val androidCompileNdkVersion = "27.0.12077973"
 val androidSourceCompatibility = JavaVersion.VERSION_21
 val androidTargetCompatibility = JavaVersion.VERSION_21
-val managerVersionCode by extra(getVersionCode())
-val managerVersionName by extra(getVersionName())
+val managerVersionCode = 11986
+val managerVersionName = "v1.0.2"
 
 fun getGitCommitCount(): Int {
     val out = ByteArrayOutputStream()
@@ -76,8 +76,8 @@ subprojects {
                 minSdk = androidMinSdkVersion
                 if (this is ApplicationDefaultConfig) {
                     targetSdk = androidTargetSdkVersion
-                    versionCode = managerVersionCode
-                    versionName = managerVersionName
+                    versionCode = 11986
+                    versionName = "v1.0.2"
                 }
                 ndk {
                     abiFilters += listOf("arm64-v8a", "x86_64", "riscv64")
