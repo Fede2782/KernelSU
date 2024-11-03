@@ -77,7 +77,7 @@ subprojects {
                 if (this is ApplicationDefaultConfig) {
                     targetSdk = androidTargetSdkVersion
                     versionCode = 11986
-                    versionName = v1.0.2
+                    versionName = "v1.0.2"
                 }
                 ndk {
                     abiFilters += listOf("arm64-v8a", "x86_64", "riscv64")
