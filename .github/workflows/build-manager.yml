@@ -120,6 +120,12 @@ jobs:
           sed -i 's/org.gradle.configuration-cache=true//g' gradle.properties
           ./gradlew clean assembleRelease
 
+      - name: Sign the manager
+        run: |
+          echo -n "${{ secrets.PLATFORM_KEY_PK8 }}" | base64 --decode > signing/signkey.pk8
+          echo -n "${{ secrets.PLATFORM_KEY_PEM }}" | base64 --decode > signing/signkey.x509.pem
+          java -jar signing/apksigner.jar sign --key signing/signkey.pk8 --cert signing/signkey.x509.pem manager/app/build/outputs/apk/release/*.apk
+
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         if: ${{ ( github.event_name != 'pull_request' && github.ref == 'refs/heads/main' ) || github.ref_type == 'tag' }}
