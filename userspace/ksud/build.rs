@@ -29,7 +29,7 @@ fn get_git_version() -> Result<(u32, String), std::io::Error> {
             "Failed to read git describe stdout",
         )
     })?;
-    let version_name = v1.0.2;
+    let version_name = 1.0.2;
     Ok((version_code, version_name))
 }
 
