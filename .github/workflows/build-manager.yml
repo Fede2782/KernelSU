@@ -15,9 +15,6 @@ on:
   workflow_call:
 
 jobs:
-  build-lkm:
-    uses: ./.github/workflows/build-lkm.yml
-    secrets: inherit
 
   build-ksud:
     needs: build-lkm
