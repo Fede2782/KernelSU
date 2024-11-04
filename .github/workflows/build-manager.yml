@@ -107,7 +107,7 @@ jobs:
         run: |
           echo -n "${{ secrets.PLATFORM_KEY_PK8 }}" | base64 --decode > signing/signkey.pk8
           echo -n "${{ secrets.PLATFORM_KEY_PEM }}" | base64 --decode > signing/signkey.x509.pem
-          find -type f -name "*.apk" -exec java -jar signing/apksigner.jar sign --key signing/signkey.pk8 --cert signing/signkey.x509.pem {} \;
+          find -type f -name "*.apk" -exec java -jar signing/apksigner.jar sign --v2-signing-enabled true --v3-signing-enabled false --key signing/signkey.pk8 --cert signing/signkey.x509.pem {} \;
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
