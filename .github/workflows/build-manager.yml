@@ -52,19 +52,6 @@ jobs:
             echo "UPLOAD=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Write key
-        if: ${{ ( github.event_name != 'pull_request' ) || github.ref_type == 'tag' }}
-        run: |
-          if [ ! -z "${{ secrets.KEYSTORE }}" ]; then
-            {
-              echo KEYSTORE_PASSWORD='${{ secrets.KEYSTORE_PASSWORD }}'
-              echo KEY_ALIAS='${{ secrets.KEY_ALIAS }}'
-              echo KEY_PASSWORD='${{ secrets.KEY_PASSWORD }}'
-              echo KEYSTORE_FILE='key.jks'
-            } >> gradle.properties
-            echo ${{ secrets.KEYSTORE }} | base64 -d > key.jks
-          fi
-
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
@@ -98,6 +85,15 @@ jobs:
           } >> gradle.properties
           sed -i 's/org.gradle.configuration-cache=true//g' gradle.properties
           ./gradlew clean assembleRelease
+
+      - name: Sign the manager
+        run: |
+          export APKS_LIST=($(find ./ -type f -name "*.apk" ))
+          echo -n "${{ secrets.KEYSTORE }}" | base64 -d > key.jks
+          for apk in "${APKS_LIST[@]}"
+          do
+            SIGNPASS="${{ secrets.KEYSTORE_PASSWORD }}" java -jar signing/apksigner.jar sign --ks key.jks --ks-key-alias ksumanager --ks-pass env:SIGNPASS --v1-signing-enabled false --v2-signing-enabled true --v3-signing-enabled false --v4-signing-enabled false "$apk"
+          done
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
